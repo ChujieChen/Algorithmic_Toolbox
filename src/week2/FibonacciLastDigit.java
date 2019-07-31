@@ -3,6 +3,7 @@ package week2;
 import java.util.*;
 
 public class FibonacciLastDigit {
+	// won't work for n > 30, even long is will overflow
     private static int getFibonacciLastDigitNaive(int n) {
         if (n <= 1)
             return n;
