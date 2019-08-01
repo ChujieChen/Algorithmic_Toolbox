@@ -49,16 +49,34 @@ public class FibonacciHuge {
     
     // Pisano period always starts with 0 1
     // And 0 1 always indicates a start of the period
-    private static long getFibonacciHugeBest() {
-		
-    	return -1;
+    // the length is no greater than 6*m
+    /**
+     * @param n Fn is the nth Fibonacci 1 <= n <= 1e14
+     * @param m The mod. 2 <= m <= 1e3
+     */
+    private static long getFibonacciHugeBest(long n, long m) {
+		long period = getPisanoPeriodLength(m);
+		System.out.println("period is " + period);
+    	long newN = n % period;
+		System.out.println("newN is " + newN);
+    	return getFibonacciHugeFast(newN, m);
 	}
     
     /**
      * @param m The mod. 2 <= m <= 1e3
      */
-    private static long getPisanoPeriodLength(int m) {
-    	
+    private static long getPisanoPeriodLength(long m) {
+    	long previous = 0;
+        long current  = 1;
+
+        for (int i = 0; i < 6 * m; ++i) {
+            long tmp_previous = previous;
+            previous = current;
+            current = (tmp_previous + current) % m;
+            if(previous == 0 && current == 1) {
+            	return i + 1;    // remember it's length instead of index
+            }
+        }
     	return -1;
     }
     
@@ -73,8 +91,14 @@ public class FibonacciHuge {
         long totalTime = endTime - startTime;
         System.out.println("runtime:" + totalTime);
         
+//        startTime = System.nanoTime();
+//        System.out.println(getFibonacciHugeFast(n, m));
+//        endTime   = System.nanoTime();
+//        totalTime = endTime - startTime;
+//        System.out.println("runtime:" + totalTime);
+        
         startTime = System.nanoTime();
-        System.out.println(getFibonacciHugeFast(n, m));
+        System.out.println(getFibonacciHugeBest(n, m));
         endTime   = System.nanoTime();
         totalTime = endTime - startTime;
         System.out.println("runtime:" + totalTime);
