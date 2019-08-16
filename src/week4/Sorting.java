@@ -19,7 +19,7 @@ public class Sorting {
     	int x = a[l];
 //    	System.out.println(x);
     	// x should be the one
-    	for (int i = l + 1; i < r; i++) {
+    	for (int i = l + 1; i <= r; i++) {
     		if(a[i] <= x) {
     			m1++;
     			int t = a[i];
@@ -35,7 +35,7 @@ public class Sorting {
 //        System.out.println(x);
     	// divide this region into two
     	for(int i = m2 - 1; i >= l; i--) {
-    		if(a[i] == x) {
+    		if(a[i] >= x) {
     			m1--;
     			t = a[i];
     			a[i] = a[m1]; 
