@@ -1,6 +1,7 @@
 package week4;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 import java.io.*;
 
 public class MajorityElement {
@@ -40,23 +41,44 @@ public class MajorityElement {
          * divide into halves. if majority element exists,
          * there must at least one half has that majority effect,
          * but not vise versa.
+         * https://www.coursera.org/learn/algorithmic-toolbox/discussions/weeks/4/threads/r_o0Dpk0EemRIQp-qhCe2A/replies/sLnaxpk0EemE-RI7QI3l1g/comments/st0JIZk0Eem2wg7iJJoM7g
          */
-        int mid = left + (right - left) / 2;
-        int left_candidate = getMajorityElement(a, left, mid);
-        int right_candidate = getMajorityElement(a, mid, right);
-        int left_count = 0;
-        int right_count = 0;
-        for(int i = left; i < right; i++) {
-        	if(a[i] == left_candidate)
-        		left_count++;
-        	if(a[i] == right_candidate)
-        		right_count++;
-        }
-        if(left_count * 2 > (right - left))
-        	return left_candidate;
-        if(right_count * 2 > (right - left))
-        	return right_candidate;
+//        int mid = left + (right - left) / 2;
+//        int left_candidate = getMajorityElement(a, left, mid);
+//        int right_candidate = getMajorityElement(a, mid, right);
+//        int left_count = 0;
+//        int right_count = 0;
+//        for(int i = left; i < right; i++) {
+//        	if(a[i] == left_candidate)
+//        		left_count++;
+//        	if(a[i] == right_candidate)
+//        		right_count++;
+//        }
+//        if(left_count * 2 > (right - left))
+//        	return left_candidate;
+//        if(right_count * 2 > (right - left))
+//        	return right_candidate;
+//        
+//        return -1;
         
+        /*
+         * approach 3
+         * HashMap to store every element
+         */
+        HashMap<Integer, Integer> countMap = new HashMap<>();
+        for(int i = left; i < right; i++) {
+        	if(countMap.containsKey(a[i])) {
+        		countMap.put(a[i], countMap.get(a[i]) + 1);
+        	}
+        	else {
+				countMap.put(a[i], 1);
+			}
+        }
+//        System.out.println(countMap);
+        for(int element : countMap.keySet()) {
+        	if(countMap.get(element) * 2 > (right - left))
+        		return countMap.get(element);
+        }
         return -1;
     }
 
