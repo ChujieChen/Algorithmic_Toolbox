@@ -16,29 +16,48 @@ public class MajorityElement {
          * approach 1: quick sort then count
          */
         // quicksort counts O(nlogn)
-        Arrays.sort(a);
-        int currElement = -1;
-        int currCount = 0;
-        // iteration costs O(n)
-        for(int currIdx = 0; currIdx < a.length; currIdx++) {
-        	if(a[currIdx] > currElement) {
-        		currElement = a[currIdx];
-        		currCount = 1;
-        		if(currCount * 2 > a.length)
-        			return 99;
-        	}
-        	else if(a[currIdx] == currElement) {
-        		currCount++;
-        		if(currCount * 2 > a.length)
-        			return 99;
-        	}
-        }
-        return -1;
+//        Arrays.sort(a);
+//        int currElement = -1;
+//        int currCount = 0;
+//        // iteration costs O(n)
+//        for(int currIdx = 0; currIdx < a.length; currIdx++) {
+//        	if(a[currIdx] > currElement) {
+//        		currElement = a[currIdx];
+//        		currCount = 1;
+//        		if(currCount * 2 > a.length)
+//        			return 99;
+//        	}
+//        	else if(a[currIdx] == currElement) {
+//        		currCount++;
+//        		if(currCount * 2 > a.length)
+//        			return 99;
+//        	}
+//        }
+//        return -1;
         
         /*
          * approach 2
+         * divide into halves. if majority element exists,
+         * there must at least one half has that majority effect,
+         * but not vise versa.
          */
+        int mid = left + (right - left) / 2;
+        int left_candidate = getMajorityElement(a, left, mid);
+        int right_candidate = getMajorityElement(a, mid, right);
+        int left_count = 0;
+        int right_count = 0;
+        for(int i = left; i < right; i++) {
+        	if(a[i] == left_candidate)
+        		left_count++;
+        	if(a[i] == right_candidate)
+        		right_count++;
+        }
+        if(left_count * 2 > (right - left))
+        	return left_candidate;
+        if(right_count * 2 > (right - left))
+        	return right_candidate;
         
+        return -1;
     }
 
     public static void main(String[] args) {
