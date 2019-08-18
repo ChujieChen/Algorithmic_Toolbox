@@ -1,6 +1,7 @@
 package week4;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 import static java.lang.Math.*;
@@ -22,12 +23,11 @@ public class Closest {
             return o.y == y ? Long.signum(x - o.x) : Long.signum(y - o.y);
         }
         
-        // approach 1
+        
         public double distanceToPoint(Point o) {
         	return Math.sqrt(Math.pow(x - o.x, 2) + Math.pow(y - o.y, 2));
         	
         }
-        /////////////
     }
 
     static double minimalDistance(long[] x, long y[]) {
@@ -74,19 +74,51 @@ public class Closest {
 //        if(midIdx == 0)
 //        	return ans;
         
-        long[] xLeftHalf = new long[midIdx];
-        long[] yLeftHalf = new long[midIdx];
-        long[] xRightHalf = new long[points.length - midIdx];
-        long[] yRightHalf = new long[points.length - midIdx];
+        /*
+         * part of approach 1
+         */
+//        long[] xLeftHalf = new long[midIdx];
+//        long[] yLeftHalf = new long[midIdx];
+//        long[] xRightHalf = new long[points.length - midIdx];
+//        long[] yRightHalf = new long[points.length - midIdx];
+//        
+//        for(int i = 0; i < midIdx; i++) {
+//        	xLeftHalf[i] = points[i].x;
+//        	yLeftHalf[i] = points[i].y;
+//        }
+//        for(int i=midIdx; i < points.length; i++) {
+//        	xRightHalf[i-midIdx] = points[i].x;
+//        	yRightHalf[i-midIdx] = points[i].y;
+//        }
+        ///////////////////////////////////////////////////////
         
-        for(int i = 0; i < midIdx; i++) {
-        	xLeftHalf[i] = points[i].x;
-        	yLeftHalf[i] = points[i].y;
+        /*
+         * approach 2:
+         * pre-sort points basd on y before recursive calls
+         */
+        Point[] leftHalfPoints = new Point[midIdx];
+        Point[] rightHalfPoints = new Point[points.length - midIdx];
+        for(int i=0; i<midIdx; i++) {
+        	leftHalfPoints[i]= points[i]; 
         }
-        for(int i=midIdx; i < points.length; i++) {
-        	xRightHalf[i-midIdx] = points[i].x;
-        	yRightHalf[i-midIdx] = points[i].y;
+        for(int i=midIdx; i<points.length; i++) {
+        	rightHalfPoints[i-midIdx] = points[i];
         }
+        Arrays.sort(leftHalfPoints);
+        Arrays.sort(rightHalfPoints);
+        long[] xLeftHalf = new long[midIdx];
+	    long[] yLeftHalf = new long[midIdx];
+	    long[] xRightHalf = new long[points.length - midIdx];
+	    long[] yRightHalf = new long[points.length - midIdx];
+        for(int i=0; i<leftHalfPoints.length; i++) {
+        	xLeftHalf[i] = leftHalfPoints[i].x;
+        	yLeftHalf[i] = leftHalfPoints[i].y;
+        }
+        for(int i=0; i<leftHalfPoints.length; i++) {
+        	xRightHalf[i] = rightHalfPoints[i].x;
+        	yRightHalf[i] = rightHalfPoints[i].y;
+        }
+        ////////////////////////////////////////////////////
         
         double d1 = minimalDistance(xLeftHalf, yLeftHalf);
         double d2 = minimalDistance(xRightHalf, yRightHalf);
@@ -99,8 +131,13 @@ public class Closest {
         		strip.add(points[i]);
         	}
         }
-        // sort strip
-        Collections.sort(strip);
+        /* 
+         * part of approach 1
+         */
+//        // sort strip
+//        Collections.sort(strip);
+        ////////////////////////
+        
         double dPrime = Double.POSITIVE_INFINITY;
         for(int i=0; i<strip.size() - 1; i++) {
         	for(int j=i+1; j < strip.size() && j < i+7;j++) {
