@@ -68,13 +68,13 @@ public class Partition3 {
     }
 
     public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        int n = scanner.nextInt();
-//        int[] A = new int[n];
-//        for (int i = 0; i < n; i++) {
-//            A[i] = scanner.nextInt();
-//        }
-        int[] A = {17, 59, 34, 57, 17, 23, 67, 1, 18, 2, 59};
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; i++) {
+            A[i] = scanner.nextInt();
+        }
+//        int[] A = {17, 59, 34, 57, 17, 23, 67, 1, 18, 2, 59};
         System.out.println(partition3(A));
     }
 }
