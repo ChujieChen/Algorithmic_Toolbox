@@ -40,6 +40,10 @@ public class Knapsack {
         		}        		
         	}
         }
+        /**
+         * https://www.techiedelight.com/0-1-knapsack-problem/
+         * recursion would be easier to understand and extend for Partition3 problem
+         */
         
         result = value[W][w.length];
         return result;
